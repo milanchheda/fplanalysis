@@ -1,4 +1,4 @@
-function generatePointsChart(resultPoints, canvasID, backgroundColor) {
+function generatePointsChart(resultPoints, canvasID, backgroundColor, chartType='bar') {
     var event = [];
     var points = [];
 
@@ -13,7 +13,13 @@ function generatePointsChart(resultPoints, canvasID, backgroundColor) {
             {
                 label: 'Points',
                 backgroundColor: backgroundColor,
-                borderColor: '#000',
+                borderColor: backgroundColor,
+                lineTension: 0.1, 
+                borderCapStyle: 'butt',
+                borderJoinStyle: 'miter',
+                pointBackgroundColor: "#000",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
                 hoverBackgroundColor: '#DDD',
                 hoverBorderColor: 'rgba(200, 200, 200, 1)',
                 data: points,
@@ -25,7 +31,7 @@ function generatePointsChart(resultPoints, canvasID, backgroundColor) {
     var ctx = $("#" + canvasID);
 
     var barGraph = new Chart(ctx, {
-        type: 'bar',
+        type: chartType,
         data: chartdata,
         options : {
         	legend: {
