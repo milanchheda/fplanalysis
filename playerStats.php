@@ -54,7 +54,7 @@ $table = '<table id="example" class="table table-striped table-bordered" cellspa
             <tr>
                 <th>Name</th>
                 <th>Team</th>
-                <td>Position</td>
+                <th>Position</th>
                 <th>Goals scored</th>
                 <th>Assists</th>
                 <th>Clean sheets</th>
@@ -68,7 +68,7 @@ $table = '<table id="example" class="table table-striped table-bordered" cellspa
             <tr>
                 <th>Name</th>
                 <th>Team</th>
-                <td>Position</td>
+                <th>Position</th>
                 <th>Goals scored</th>
                 <th>Assists</th>
                 <th>Clean sheets</th>
@@ -83,7 +83,7 @@ $table = '<table id="example" class="table table-striped table-bordered" cellspa
 $query = mysqli_query($conn, "select p.web_name, t.name, p.goals_scored, p.assists, p.clean_sheets, p.goals_scored, p.goals_conceded, p.own_goals, p.minutes, p.total_points, et.name elementName from players p
 join teams t on t.code = p.team_code
 join element_types et on et.id = p.element_type
-order by p.total_points desc") or die(mysql_error());
+order by p.total_points desc");
 while($row = mysqli_fetch_array($query)) {
 	$table .= "<tr>
 				<td>" . $row['web_name'] . "</td>
