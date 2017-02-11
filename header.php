@@ -2,7 +2,8 @@
 <?php
 $navigation = [
                 'playerStats.php' => 'Player Stats',
-                'teamStats.php' => 'Team Stats'
+                'teamStats.php' => 'Team Stats',
+                'gameweekStats.php' => 'Gameweek Stats'
                 ];
 $navUrls = '';
 foreach ($navigation as $key => $value) {
@@ -10,7 +11,7 @@ foreach ($navigation as $key => $value) {
     if(basename ($PHP_SELF,".php") == $key) {
         $class = "class='active'";
     }
-    $navUrls .= '<li ' . $class . '><a href="playerStats.php">Player Stats</a></li>';
+    $navUrls .= '<li ' . $class . '><a href="' . $key . '">' . $value . '</a></li>';
 }
 ?>
 <!DOCTYPE html>
