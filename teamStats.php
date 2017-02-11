@@ -176,7 +176,7 @@ $captainsTable .= "</tbody></table>";
 		<div class="row">
 	    	<div class="col-xs-12 col-md-6 leftContainerRightPadding">
 		    	<div class="panel panel-default chart-container">
-					<div class="panel-heading">Overall FPL: Top Performers</div>
+					<div class="panel-heading">Your Top Performers</div>
 					<div class="panel-body">
 					</div>
 					<canvas id='top-performers-canvas' width='535' height='300'></canvas>
@@ -184,7 +184,7 @@ $captainsTable .= "</tbody></table>";
 			</div>
 			<div class="col-xs-12 col-md-6 RightContainerLeftPadding">
 				<div class="panel panel-default chart-container">
-					<div class="panel-heading">Overall FPL: Low Performers</div>
+					<div class="panel-heading">Your Low Performers</div>
 					<div class="panel-body">
 					</div>
 					<canvas id='low-performers-canvas' width='535' height='300'></canvas>
