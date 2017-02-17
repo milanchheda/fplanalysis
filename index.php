@@ -8,18 +8,11 @@ unset($_SESSION['teamID']);
     <title>FPL Analysis</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <meta name="title" content="FPL Analysis">
     <meta name="description" content="FPL Analysis for Fantasy Premier League Managers">
-    <meta name="keywords" content="English Premier League, Fantasy Premier League, EPL, BPL, Barclays Premier League">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/dt-1.10.13/af-2.1.3/fc-3.2.2/fh-3.1.2/kt-2.2.0/r-2.1.0/se-1.2.0/datatables.min.css"/> -->
-    <link rel="stylesheet" type="text/css" href="css/style.css"> 
-    
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script> -->
-    <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/dt-1.10.13/af-2.1.3/fc-3.2.2/fh-3.1.2/kt-2.2.0/r-2.1.0/se-1.2.0/datatables.min.js"></script> -->
-    <!-- <script type="text/javascript" src="js/fpl.js"></script> -->
+    <meta name="keywords" content="English Premier League, Fantasy Premier League, EPL, BPL, Barclays Premier League, Premier League">
+    <link rel="stylesheet" href="css/bootstrap.min.css?v=1.0.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=1.0.0"> 
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
