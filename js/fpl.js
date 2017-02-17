@@ -14,12 +14,14 @@ function generatePointsChart(resultPoints, canvasID, backgroundColor, chartType=
                 label: 'Points',
                 backgroundColor: backgroundColor,
                 borderColor: backgroundColor,
-                lineTension: 0.1, 
-                borderCapStyle: 'butt',
-                borderJoinStyle: 'miter',
-                pointBackgroundColor: "#000",
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
+                lineTension: 0,
+                borderWidth: 2,
+                borderCapStyle: 'round',
+                // borderJoinStyle: 'miter',
+                // pointBackgroundColor: "#000",
+                showLine: true,
+                // pointBorderWidth: 1,
+                // pointHoverRadius: 2,
                 hoverBackgroundColor: '#DDD',
                 hoverBorderColor: 'rgba(200, 200, 200, 1)',
                 data: points,
@@ -40,14 +42,16 @@ function generatePointsChart(resultPoints, canvasID, backgroundColor, chartType=
             scales: {
                 yAxes: [{
                     gridLines: {
-                        lineWidth: 0,
-                        color: "rgba(255,255,255,0)"
+                        display: true,
+                        lineWidth: 1,
+                        color: "rgba(0,0,0,0.1)"
                     }
                 }],
                 xAxes: [{
                     gridLines: {
-                        lineWidth: 0,
-                        color: "rgba(255,255,255,0)"
+                        display: true,
+                        lineWidth: 1,
+                        color: "rgba(0,0,0,0)"
                     }
                 }]
             }

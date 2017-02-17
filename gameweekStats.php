@@ -29,9 +29,46 @@ while($row = mysqli_fetch_array($query)) {
 	$teamValueChartData[$row['gameweek_number']] = $row['team_value'];
 }
 
-?>
 
-<div class='container-fluid'>
+$table = '<div class="container-fluid"><div class="panel panel-default">
+  <div class="panel-heading">Gameweek stats</div><table class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>GW</th>
+                <th>GW Points</th>
+                <th>Total Points</th>
+                <th>GW Rank</th>
+                <th>Overall Rank</th>
+                <th>Team Value</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>GW</th>
+                <th>GW Points</th>
+                <th>Total Points</th>
+                <th>GW Rank</th>
+                <th>Overall Rank</th>
+                <th>Team Value</th>
+            </tr>
+        </tfoot>
+        <tbody>';
+
+$query = mysqli_query($conn, "SELECT * FROM users_gameweek_history where user_fpl_id = " . $teamId . " ORDER BY gameweek_number DESC");
+while($row = mysqli_fetch_array($query)) {
+	$table .= "<tr>
+				<td>" . $row['gameweek_number'] . "</td>
+				<td>" . $row['points'] . "</td>
+				<td>" . number_format($row['total_points']) . "</td>
+				<td>" . number_format($row['rank']) . "</td>
+				<td>" . number_format($row['overall_rank']) . "</td>
+				<td>" . $row['team_value']/10 . "</td>
+			</tr>"; 
+}
+
+$table .= "</tbody></table></div>";
+echo $table;
+?>
 	<div class='container-fluid'>
 		<div class="row">
 	    	<div class="col-xs-12 col-md-6 leftContainerRightPadding">
@@ -68,12 +105,18 @@ while($row = mysqli_fetch_array($query)) {
 	  	</div>
 	</div>
 </div>
-
+<footer>
+    <center>
+        <div class="devunit">
+           Made with <span class="love"><i class="glyphicon glyphicon-heart"></i></span>  by <a href="//milanchheda.com" target="_BLANK">Milan Chheda</a>
+        </div>
+    </center>
+</footer>
 <script type="text/javascript">
-	generatePointsChart(<?php echo json_encode($pointsChartData, JSON_NUMERIC_CHECK); ?>, 'teams-canvas', '#38003c', 'line')
-	generatePointsChart(<?php echo json_encode($rankChartData, JSON_NUMERIC_CHECK); ?>, 'yellow-canvas', '#FFFF70', 'line')
+	generatePointsChart(<?php echo json_encode($pointsChartData, JSON_NUMERIC_CHECK); ?>, 'teams-canvas', '#BBB', 'line')
+	generatePointsChart(<?php echo json_encode($rankChartData, JSON_NUMERIC_CHECK); ?>, 'yellow-canvas', '#6cc644', 'line')
 	generatePointsChart(<?php echo json_encode($overallRankChartData, JSON_NUMERIC_CHECK); ?>, 'red-canvas', '#d00', 'line')
-	generatePointsChart(<?php echo json_encode($teamValueChartData, JSON_NUMERIC_CHECK); ?>, 'goals-canvas', '#ff9999', 'line')
+	generatePointsChart(<?php echo json_encode($teamValueChartData, JSON_NUMERIC_CHECK); ?>, 'goals-canvas', '#6e5494', 'line')
 
 </script>
 </body>

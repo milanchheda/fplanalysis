@@ -170,6 +170,13 @@ echo $table;
 </div>
 
 </div>
+<footer>
+    <center>
+        <div class="devunit">
+           Made with <span class="love"><i class="glyphicon glyphicon-heart"></i></span>  by <a href="//milanchheda.com" target="_BLANK">Milan Chheda</a>
+        </div>
+    </center>
+</footer>
 <script type="text/javascript">
 	// $(document).ready(function() {
 	    
