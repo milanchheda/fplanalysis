@@ -54,3 +54,27 @@ function generatePointsChart(resultPoints, canvasID, backgroundColor, chartType=
     	}
     });
 }
+
+function tog(v){return v?'addClass':'removeClass';} 
+
+$(document).ready(function(){
+
+    $('#example').DataTable({
+        fixedHeader: true,
+        order: [[9, 'desc']],
+    });
+
+    $(document).on('input', '.input-sm', function(){
+        $(this)[tog(this.value)]('x');
+    }).on('mousemove', '.x', function( e ){
+        $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');   
+    }).on('touchstart click', '.onX', function( ev ){
+        ev.preventDefault();
+        $(this).removeClass('x onX').val('').change();
+        $(this).keyup();
+    });
+
+    $("body").on('click', ".searchByFilter", function(){
+        $('div.dataTables_filter input').addClass('x').val($(this).text()).keyup();
+    });
+});
