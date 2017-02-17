@@ -8,7 +8,7 @@ $navigation = [
 $navUrls = '';
 foreach ($navigation as $key => $value) {
     $class = '';
-    if(basename ($PHP_SELF,".php") == $key) {
+    if(basename ($_SERVER['PHP_SELF']) == $key) {
         $class = "class='active'";
     }
     $navUrls .= '<li ' . $class . '><a href="' . $key . '">' . $value . '</a></li>';
