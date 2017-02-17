@@ -55,6 +55,7 @@ $table = '<table id="example" class="table table-striped table-bordered" cellspa
                 <th>Name</th>
                 <th>Team</th>
                 <th>Position</th>
+                <th>Status</th>
                 <th>Goals scored</th>
                 <th>Assists</th>
                 <th>Clean sheets</th>
@@ -69,6 +70,7 @@ $table = '<table id="example" class="table table-striped table-bordered" cellspa
                 <th>Name</th>
                 <th>Team</th>
                 <th>Position</th>
+                <th>Status</th>
                 <th>Goals scored</th>
                 <th>Assists</th>
                 <th>Clean sheets</th>
@@ -80,15 +82,39 @@ $table = '<table id="example" class="table table-striped table-bordered" cellspa
         </tfoot>
         <tbody>';
 
-$query = mysqli_query($conn, "select p.web_name, t.name, p.goals_scored, p.assists, p.clean_sheets, p.goals_scored, p.goals_conceded, p.own_goals, p.minutes, p.total_points, et.name elementName from players p
+$query = mysqli_query($conn, "select p.web_name, t.name, p.goals_scored, p.assists, p.clean_sheets, p.goals_scored, p.goals_conceded, p.own_goals, p.minutes, p.total_points, et.name elementName, p.status from players p
 join teams t on t.code = p.team_code
 join element_types et on et.id = p.element_type
 order by p.total_points desc");
 while($row = mysqli_fetch_array($query)) {
+	switch ($row['status']) {
+		case 'a':
+			$playerStatus = 'Available';
+			break;
+		case 'u':
+			$playerStatus = 'Unavailable';
+			break;
+		case 'i':
+			$playerStatus = 'Injured';
+			break;
+		case 'd':
+			$playerStatus = 'Doubtful';
+			break;
+		case 's':
+			$playerStatus = 'Suspended';
+			break;
+		case 'n':
+			$playerStatus = 'Not available';
+			break;
+		default:
+			$playerStatus = 'Don\'t know';
+			break;
+	}
 	$table .= "<tr>
 				<td>" . $row['web_name'] . "</td>
-				<td>" . $row['name'] . "</td>
-				<td>" . $row['elementName'] . "</td>
+				<td><a href='#' class='searchByFilter'>" . $row['name'] . "</a></td>
+				<td><a href='#' class='searchByFilter'>" . $row['elementName'] . "</a></td>
+				<td><a href='#' class='searchByFilter'>" . $playerStatus . "</a></td>
 				<td>" . $row['goals_scored'] . "</td>
 				<td>" . $row['assists'] . "</td>
 				<td>" . $row['clean_sheets'] . "</td>
@@ -145,12 +171,9 @@ echo $table;
 
 </div>
 <script type="text/javascript">
-	$(document).ready(function() {
-	    $('#example').DataTable({
-	    	fixedHeader: true,
-	    	order: [[9, 'desc']],
-	    });
-	});
+	// $(document).ready(function() {
+	    
+	// });
 
 	generatePointsChart(<?php echo json_encode($teamChart, JSON_NUMERIC_CHECK); ?>, 'teams-canvas', '#38003c')
 	generatePointsChart(<?php echo json_encode($yellowCardChart, JSON_NUMERIC_CHECK); ?>, 'yellow-canvas', '#FFFF70')
