@@ -4,33 +4,61 @@ require_once __DIR__ . "/config.php";
 
 session_start();
 
+
+// if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 86400)) {
+//     // last request was more than 30 minutes ago
+//     session_unset();     // unset $_SESSION variable for the run-time 
+//     session_destroy();   // destroy session data in storage
+// }
+
 if(isset($_POST['fpl-team-id']) && is_numeric($_POST['fpl-team-id']) && strlen($_POST['fpl-team-id']) < 12){
 	$teamId = $_POST['fpl-team-id'];
 	$_SESSION['teamID'] = $_POST['fpl-team-id'];
+	$_SESSION['LAST_ACTIVITY'] = time();
 }
 else if(isset($_SESSION['teamID']))
 	$teamId = $_SESSION['teamID'];
 else
 	header('Location: index.php');
 
-mysqli_query($conn, "INSERT INTO get_users_data (fpl_team_id, requested_on, status) values('" . $teamId . "', '". time() . "', '1')");
+// mysqli_query($conn, "INSERT INTO get_users_data (fpl_team_id, requested_on, status) values('" . $teamId . "', '". time() . "', '1')");
 
 
-// $teamId = 109123;
-$contents = json_decode(file_get_contents("https://fantasy.premierleague.com/drf/entry/" . $teamId . "/event/1"));
 
-$current_event = $contents->ce;
+$lastInsertedDate = 0;
+$query = mysqli_query($conn, "SELECT last_insert_on FROM fpl_user_data where fpl_user_data_id = " . $teamId);
+$result = mysqli_fetch_array($query);
+$lastInsertedDate = $result['last_insert_on'];
 
-mysqli_query($conn, "DELETE FROM fpl_user_data WHERE id = '" . $contents->entry->id . "'");
-mysqli_query($conn, "INSERT INTO fpl_user_data values ('" . $contents->entry->id . "', '" . $contents->entry->player_first_name . "', '" . $contents->entry->player_last_name . "', '" . $contents->entry->player_region_name . "','" . $contents->entry->summary_overall_points . "','" . $contents->entry->summary_overall_rank . "','" . $contents->entry->summary_event_points . "','" . $contents->entry->summary_event_rank . "','" . $contents->entry->current_event . "','" . $contents->entry->total_transfers . "','" . $contents->entry->name . "')");
+if($lastInsertedDate == 0 && (time() - $lastInsertedDate > 21600)) {
+	$now = time();
+	//21600
+	// $teamId = 109123;
+	$contents = json_decode(file_get_contents("https://fantasy.premierleague.com/drf/entry/" . $teamId . "/event/1"));
 
-mysqli_query($conn, "INSERT INTO get_users_data (fpl_team_id, requested_on, status, gameweek_number) values('" . $teamId . "', '". time() . "', '1', '".$current_event."')");
+	$current_event = $contents->ce;
 
-//HISTORY
-$history = json_decode(file_get_contents("https://fantasy.premierleague.com/drf/entry/" . $teamId . "/history"));
-foreach($history->history as $value) {
-	mysqli_query($conn, "INSERT INTO users_gameweek_history (user_fpl_id, points, total_points, rank, overall_rank, gameweek_number, team_value) values('" . $teamId . "', '". $value->points . "', '" . $value->total_points . "', '" . $value->rank . "', '" . $value->overall_rank . "', '" . $value->event . "', '" . $value->value . "')");
+	mysqli_query($conn, "DELETE FROM fpl_user_data WHERE id = '" . $contents->entry->id . "'");
+	mysqli_query($conn, "INSERT INTO fpl_user_data values ('" . $contents->entry->id . "', '" . $contents->entry->player_first_name . "', '" . $contents->entry->player_last_name . "', '" . $contents->entry->player_region_name . "','" . $contents->entry->summary_overall_points . "','" . $contents->entry->summary_overall_rank . "','" . $contents->entry->summary_event_points . "','" . $contents->entry->summary_event_rank . "','" . $contents->entry->current_event . "','" . $contents->entry->total_transfers . "','" . $contents->entry->name . "', " . $now .")");
+
+	mysqli_query($conn, "INSERT INTO get_users_data (fpl_team_id, requested_on, status, gameweek_number) values('" . $teamId . "', '". time() . "', '1', '".$current_event."')");
+
+	//HISTORY
+	$history = json_decode(file_get_contents("https://fantasy.premierleague.com/drf/entry/" . $teamId . "/history"));
+	foreach($history->history as $value) {
+		$subQuery = mysqli_query($conn, "SELECT count(*) as count from users_gameweek_history where user_fpl_id = " . $teamId . " AND gameweek_number = " . $value->event);
+		$subResult = mysqli_fetch_array($subQuery);
+
+		if($subResult['count'] == 0)
+			mysqli_query($conn, "INSERT INTO users_gameweek_history (user_fpl_id, points, total_points, rank, overall_rank, gameweek_number, team_value) values('" . $teamId . "', '". $value->points . "', '" . $value->total_points . "', '" . $value->rank . "', '" . $value->overall_rank . "', '" . $value->event . "', '" . $value->value . "')");
+	}
 }
+
+
+
+
+
+
 
 
 $queryCheck = mysqli_query($conn, "SELECT gameweek_number from user_gameweek_picks where user_fpl_id = " . $teamId . " AND gameweek_number=" . $current_event);
@@ -193,7 +221,13 @@ $captainsTable .= "</tbody></table>";
 		</div>
 	</div>
 </div>
-
+<footer>
+    <center>
+        <div class="devunit">
+           Made with <span class="love"><i class="glyphicon glyphicon-heart"></i></span>  by <a href="//milanchheda.com" target="_BLANK">Milan Chheda</a>
+        </div>
+    </center>
+</footer>
 <script type="text/javascript">
 	$(document).ready(function() {
 	    $('#gameweekPlayers, #gameweekCaptains').DataTable({

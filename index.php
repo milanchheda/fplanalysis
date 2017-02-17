@@ -11,8 +11,8 @@ unset($_SESSION['teamID']);
     <meta name="title" content="FPL Analysis">
     <meta name="description" content="FPL Analysis for Fantasy Premier League Managers">
     <meta name="keywords" content="English Premier League, Fantasy Premier League, EPL, BPL, Barclays Premier League, Premier League">
-    <link rel="stylesheet" href="css/bootstrap.min.css?v=1.0.0">
-    <link rel="stylesheet" type="text/css" href="css/style.css?v=1.0.0"> 
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?v=1.0.1">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=1.0.1"> 
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -77,5 +77,12 @@ unset($_SESSION['teamID']);
             </div>
         </div>
     </div>
+    <footer>
+        <center>
+            <div class="devunit">
+               Made with <span class="love"><i class="glyphicon glyphicon-heart"></i></span>  by <a href="//milanchheda.com" target="_BLANK">Milan Chheda</a>
+            </div>
+        </center>
+    </footer>
 </body>
 </html>
