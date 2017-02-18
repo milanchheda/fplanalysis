@@ -22,9 +22,26 @@ unset($_SESSION['teamID']);
         ga('create', 'UA-91316667-2', 'auto');
         ga('send', 'pageview');
     </script>
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '827358514068521'); // Insert your pixel ID here.
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=827358514068521&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- DO NOT MODIFY -->
+    <!-- End Facebook Pixel Code -->
+
 </head>
 <body>
-    <div class="container" id="container" data-page="">
+    <div class="container" id="container">
         <div class="lookup-view">
             <div class="row">
                 <h1 class="homePageHeader">Data analysis tool for Fantasy Premier League Managers</h1>
@@ -37,16 +54,13 @@ unset($_SESSION['teamID']);
                             <li>Detailed player analysis in sortable searchable tables.</li>
                             <li>Graph and Charts of various statistics.</li>
                             <li>Your game-week history, on how have you progressed so far.</li>
-			    <li>Red & Yellow cards per team.</li>
-			    <li>Goals conceded per team.</li>
-			    <li>Your teams all-time High and Low performers.</li>
-			    <li>Total points by each player in this season.</li>
-			    <li>Total points by each position in this season.</li>
-			    <li>Total points by each team in this season.</li>
+            			    <li>Red & Yellow cards per team.</li>
+            			    <li>Goals conceded per team.</li>
+            			    <li>Your teams all-time High and Low performers.</li>
+            			    <li>Total points by each player in this season.</li>
+            			    <li>Total points by each position in this season.</li>
+            			    <li>Total points by each team in this season.</li>
                         </ul>
-                        <br>
-                        <!-- <h2 class="lookup-title">See it in action?</h2> -->
-                        <!-- <p>See it in action by viewing <a href="/2697186/dashboard" class="leader">Hebknut</a>, the current FPL overall leader.</p> -->
                     </div>
                     <div class="col col-md-6">
                         <div class="box">
