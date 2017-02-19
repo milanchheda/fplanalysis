@@ -61,11 +61,23 @@ function generatePointsChart(resultPoints, canvasID, backgroundColor, chartType=
 
 function tog(v){return v?'addClass':'removeClass';} 
 
-$(document).ready(function(){
 
-    $('#example').DataTable({
-        fixedHeader: true,
-        order: [[9, 'desc']],
+$(document).ready(function(){
+    window.setTimeout(function(){
+        $(".twitter-timeline").contents().find(".MediaCard-media").remove();
+    }, 1500);
+
+    if($('#example').length) {
+        $('#example').DataTable({
+            fixedHeader: true,
+            order: [[9, 'desc']],
+        });    
+    }
+    
+    $(".showMyTeamDashboard").click(function(){
+        $("#fpl-team-id").val(109123);
+        $(".form").submit();
+        return false;
     });
 
     $(document).on('input', '.input-sm', function(){

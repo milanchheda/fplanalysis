@@ -140,14 +140,14 @@ echo $table;
 				<div class="panel-heading">Overall FPL: Team Stats</div>
 				<div class="panel-body">
 				</div>
-				<canvas id='teams-canvas' width='535' height='300'></canvas>
+				<canvas id='teams-canvas' width='535' height='250'></canvas>
 			</div>
 
 			<div class="panel panel-default chart-container">
 				<div class="panel-heading">Overall FPL: Yellow Cards by each team</div>
 				<div class="panel-body">
 				</div>
-				<canvas id='yellow-canvas' width='535' height='300'></canvas>
+				<canvas id='yellow-canvas' width='535' height='250'></canvas>
 			</div>
     	</div>
 	    <div class="col-xs-12 col-md-6 RightContainerLeftPadding">
@@ -155,7 +155,7 @@ echo $table;
 				<div class="panel-heading">Overall FPL: Red Cards by each team</div>
 				<div class="panel-body">
 				</div>
-				<canvas id='red-canvas' width='535' height='300'></canvas>
+				<canvas id='red-canvas' width='535' height='250'></canvas>
 
 			</div>
 
@@ -163,7 +163,7 @@ echo $table;
 				<div class="panel-heading">Overall FPL: Goals Conceded by each team</div>
 				<div class="panel-body">
 				</div>
-				<canvas id='goals-canvas' width='535' height='300'></canvas>
+				<canvas id='goals-canvas' width='535' height='250'></canvas>
 			</div>
 	    </div>
   	</div>
@@ -182,10 +182,10 @@ echo $table;
 	    
 	// });
 
-	generatePointsChart(<?php echo json_encode($teamChart, JSON_NUMERIC_CHECK); ?>, 'teams-canvas', '#38003c')
-	generatePointsChart(<?php echo json_encode($yellowCardChart, JSON_NUMERIC_CHECK); ?>, 'yellow-canvas', '#FFFF70')
+	generatePointsChart(<?php echo json_encode($teamChart, JSON_NUMERIC_CHECK); ?>, 'teams-canvas', '#6cc644')
+	generatePointsChart(<?php echo json_encode($yellowCardChart, JSON_NUMERIC_CHECK); ?>, 'yellow-canvas', '#ffff23')
 	generatePointsChart(<?php echo json_encode($redCardChart, JSON_NUMERIC_CHECK); ?>, 'red-canvas', '#d00')
-	generatePointsChart(<?php echo json_encode($goalsConcededChart, JSON_NUMERIC_CHECK); ?>, 'goals-canvas', '#ff9999')
+	generatePointsChart(<?php echo json_encode($goalsConcededChart, JSON_NUMERIC_CHECK); ?>, 'goals-canvas', '#6e5494')
 
 </script>
 </body>
