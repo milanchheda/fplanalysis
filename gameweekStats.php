@@ -31,7 +31,7 @@ while($row = mysqli_fetch_array($query)) {
 
 
 $table = '<div class="container-fluid"><div class="panel panel-default">
-  <div class="panel-heading">Gameweek stats</div><table class="table table-striped table-bordered" cellspacing="0" width="100%">
+  <div class="panel-heading">Gameweek stats</div><table id="gameweeksTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>GW</th>
@@ -54,16 +54,29 @@ $table = '<div class="container-fluid"><div class="panel panel-default">
         </tfoot>
         <tbody>';
 
-$query = mysqli_query($conn, "SELECT * FROM users_gameweek_history where user_fpl_id = " . $teamId . " ORDER BY gameweek_number DESC");
+$query = mysqli_query($conn, "SELECT * FROM users_gameweek_history where user_fpl_id = " . $teamId . " ORDER BY gameweek_number ASC");
 while($row = mysqli_fetch_array($query)) {
+	if($row['gameweek_number'] == 1)
+		$prevRank = 0;
+
+	$addClass = '<div class="no-arrow">&mdash;</div>';
+	if($row['gameweek_number'] > 1) {
+		if($row['overall_rank'] > $prevRank)
+			$addClass = '<div class="down-arrow"></div>';
+		elseif($row['overall_rank'] < $prevRank)
+			$addClass = '<div class="up-arrow"></div>';	
+	}
+	
+
 	$table .= "<tr>
-				<td>" . $row['gameweek_number'] . "</td>
+				<td>" . $addClass . $row['gameweek_number'] . "</td>
 				<td>" . $row['points'] . "</td>
 				<td>" . number_format($row['total_points']) . "</td>
 				<td>" . number_format($row['rank']) . "</td>
 				<td>" . number_format($row['overall_rank']) . "</td>
 				<td>" . $row['team_value']/10 . "</td>
 			</tr>"; 
+	$prevRank = $row['overall_rank'];
 }
 
 $table .= "</tbody></table></div>";
@@ -76,14 +89,14 @@ echo $table;
 					<div class="panel-heading">Points across gameweeks</div>
 					<div class="panel-body">
 					</div>
-					<canvas id='teams-canvas' width='535' height='300'></canvas>
+					<canvas id='teams-canvas' width='535' height='220'></canvas>
 				</div>
 
 				<div class="panel panel-default chart-container">
 					<div class="panel-heading">Ranks across gameweeks</div>
 					<div class="panel-body">
 					</div>
-					<canvas id='yellow-canvas' width='535' height='300'></canvas>
+					<canvas id='yellow-canvas' width='535' height='220'></canvas>
 				</div>
 	    	</div>
 		    <div class="col-xs-12 col-md-6 RightContainerLeftPadding">
@@ -91,7 +104,7 @@ echo $table;
 					<div class="panel-heading">Overall rank chart</div>
 					<div class="panel-body">
 					</div>
-					<canvas id='red-canvas' width='535' height='300'></canvas>
+					<canvas id='red-canvas' width='535' height='220'></canvas>
 
 				</div>
 
@@ -99,7 +112,7 @@ echo $table;
 					<div class="panel-heading">Teams value per gameweek</div>
 					<div class="panel-body">
 					</div>
-					<canvas id='goals-canvas' width='535' height='300'></canvas>
+					<canvas id='goals-canvas' width='535' height='220'></canvas>
 				</div>
 		    </div>
 	  	</div>

@@ -65,10 +65,10 @@ if($getEnv != 'local') {
                 <h2 class="subheading">Season 2016/17</h2>
                 <div class="row">
                     <div class="col col-md-6">
-                        <img class="homePageBanner" src="<?php echo $image; ?>" height="295" width=472 />
+                        <img class="homePageBanner" src="<?php echo $image; ?>" height="315" width=572 />
                     </div>
                     <div class="col col-md-6">
-                        <img class="homePageBanner" src="<?php echo $image1; ?>" height="295" width=472 />
+                        <img class="homePageBanner" src="<?php echo $image1; ?>" height="315" width=572 />
                     </div>
 
                 </div>
@@ -116,7 +116,7 @@ if($getEnv != 'local') {
                     </div>
                     <div class="col col-md-6">
                         <div class='twitter-block'>
-                            <a class="twitter-timeline"  href="https://twitter.com/hashtag/FPL" data-widget-id="833372855974903808" data-chrome="noheader nofooter" data-tweet-limit="3" data-border-color="#DDD" lang="EN" data-theme="light" height="447" width="550" data-show-replies="true" data-aria-polite="assertive">#FPL Tweets</a>
+                            <a class="twitter-timeline"  href="https://twitter.com/hashtag/FPL" data-widget-id="833372855974903808" data-chrome="noheader nofooter" data-tweet-limit="4" data-border-color="#DDD" lang="EN" data-theme="light" height="447" width="550" data-show-replies="true" data-aria-polite="assertive">#FPL Tweets</a>
                             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
                         </div>
                     </div>
