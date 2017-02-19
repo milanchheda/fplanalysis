@@ -4,10 +4,10 @@ $getEnv = getenv('LOCAL_ENV');
 
 session_start();
 unset($_SESSION['teamID']);
-$getRandomNumber = rand(1,9);
-$getAnotherRandomNumber = rand(1,9);
+$getRandomNumber = rand(1,12);
+$getAnotherRandomNumber = rand(1,12);
 while($getAnotherRandomNumber == $getRandomNumber) {
-    $getAnotherRandomNumber = rand(1,9);
+    $getAnotherRandomNumber = rand(1,12);
 }
 $image = 'images/'.$getRandomNumber.'.jpg';
 $image1 = 'images/'.$getAnotherRandomNumber.'.jpg';
