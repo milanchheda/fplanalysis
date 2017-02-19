@@ -56,7 +56,7 @@ body {
   margin-bottom: 20px;
 }
 .lookup-view {
-	width: 80%;
+	width: 98%;
     padding: 15px;
     display: block;
     margin-left: auto;
@@ -271,3 +271,34 @@ input[type=text] {
     border: 1px solid #DDD;
     margin-top: -7px;
 }
+.up-arrow {
+  border-color: #28fc9f transparent;
+  border-style: solid;
+  border-width: 0px 7px 7px 7px;
+  height: 0px;
+  width: 0px;
+  float: left;
+  margin: 4px 5px 0 0px;
+}
+.down-arrow {
+  border-color: #ef5252 transparent;
+  border-style: solid;
+  border-width: 7px 7px 0px 7px;
+  height: 0px;
+  width: 0px;
+  float: left;
+  margin: 4px 5px 0 0px;
+}
+.no-arrow {
+  float: left;
+  margin: 0px 5px 0 0px; 
+  font-weight: bold;
+}
+/*table#gameweeksTable tr.green td {
+  background-color: #28fc9f;
+  font-weight: bold;
+}
+table#gameweeksTable tr.red td {
+  background-color: #ef5252;
+  font-weight: bold;
+}*/
