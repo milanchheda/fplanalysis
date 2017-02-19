@@ -76,14 +76,14 @@ echo $table;
 					<div class="panel-heading">Points across gameweeks</div>
 					<div class="panel-body">
 					</div>
-					<canvas id='teams-canvas' width='535' height='300'></canvas>
+					<canvas id='teams-canvas' width='535' height='220'></canvas>
 				</div>
 
 				<div class="panel panel-default chart-container">
 					<div class="panel-heading">Ranks across gameweeks</div>
 					<div class="panel-body">
 					</div>
-					<canvas id='yellow-canvas' width='535' height='300'></canvas>
+					<canvas id='yellow-canvas' width='535' height='220'></canvas>
 				</div>
 	    	</div>
 		    <div class="col-xs-12 col-md-6 RightContainerLeftPadding">
@@ -91,7 +91,7 @@ echo $table;
 					<div class="panel-heading">Overall rank chart</div>
 					<div class="panel-body">
 					</div>
-					<canvas id='red-canvas' width='535' height='300'></canvas>
+					<canvas id='red-canvas' width='535' height='220'></canvas>
 
 				</div>
 
@@ -99,7 +99,7 @@ echo $table;
 					<div class="panel-heading">Teams value per gameweek</div>
 					<div class="panel-body">
 					</div>
-					<canvas id='goals-canvas' width='535' height='300'></canvas>
+					<canvas id='goals-canvas' width='535' height='220'></canvas>
 				</div>
 		    </div>
 	  	</div>
