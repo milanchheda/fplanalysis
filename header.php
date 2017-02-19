@@ -24,12 +24,12 @@ foreach ($navigation as $key => $value) {
     <meta name="description" content="FPL Analysis for Fantasy Premier League Managers">
     <meta name="keywords" content="English Premier League, Fantasy Premier League, EPL, BPL, Barclays Premier League">
 
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?v=1.0.1">
-    <link rel="stylesheet" type="text/css" href="css/datatables.min.css?v=1.0.1"/>
-    <link rel="stylesheet" type="text/css" href="css/style.css?v=1.0.1"> 
-    <script type="text/javascript" src="js/Chart.bundle.min.js?v=1.0.1"></script>
-    <script type="text/javascript" src="js/datatables.min.js?v=1.0.1"></script>
-    <script type="text/javascript" src="js/fpl.js?v=1.0.1"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?v=1.0.2">
+    <link rel="stylesheet" type="text/css" href="css/datatables.min.css?v=1.0.2"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=1.0.2"> 
+    <script type="text/javascript" src="js/Chart.bundle.min.js?v=1.0.2"></script>
+    <script type="text/javascript" src="js/datatables.min.js?v=1.0.2"></script>
+    <script type="text/javascript" src="js/fpl.js?v=1.0.2"></script>
 <?php
     if($getEnv != 'local'){
 ?>
