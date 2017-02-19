@@ -6,8 +6,20 @@
 body {
 	font-family: Open Sans,Lucida Sans Unicode,sans-serif;
 	background: #EEE;
+  font-size: 12px;
 }
-
+.navbar {
+  border-radius: 0 !important;
+}
+.navbar ul.nav li {
+  font-weight: bold;
+  font-size: 16px;
+}
+.panel-heading {
+  font-weight: bold;
+  font-size: 1.5em;
+  font-variant: small-caps;
+}
 #example_length, #example_info {
 	margin-top: 10px;
 	padding-left: 10px;
@@ -40,8 +52,8 @@ body {
 }
 .subheading {
 	text-align: center;
-    font-size: 17px;
-    margin-bottom: 40px;
+  font-size: 17px;
+  margin-bottom: 20px;
 }
 .lookup-view {
 	width: 80%;
@@ -149,6 +161,7 @@ input[type=text] {
 .tile_count .tile_stats_count .count_top, .tile_count .team_name .count_top {
 	text-align: center;
 	font-size: 17px;
+  font-variant: small-caps;
 }
 
 .tile_count .tile_stats_count .count,.tile_count .team_name .count {
@@ -196,6 +209,7 @@ input[type=text] {
     color: #000;
     background-color: #f5f5f5;
     border-color: #ddd;
+    font-variant: small-caps;
 }
 
 .input-sm{
@@ -242,4 +256,18 @@ input[type=text] {
 }
 @keyframes love {
   to {transform: scale(1.2);}
+}
+.homePageBanner {
+  padding: 5px;
+  background-color: #FFF;
+  border: 1px solid #ddd;
+}
+.aboutFPL {
+    font-size: 1.8em;
+    font-weight: 500;
+    padding: 10px;
+    background: #FFF;
+    margin: 0 -11px 10px 10px;
+    border: 1px solid #DDD;
+    margin-top: -7px;
 }

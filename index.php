@@ -1,6 +1,16 @@
 <?php
+
+$getEnv = getenv('LOCAL_ENV');
+
 session_start();
 unset($_SESSION['teamID']);
+$getRandomNumber = rand(1,9);
+$getAnotherRandomNumber = rand(1,9);
+while($getAnotherRandomNumber == $getRandomNumber) {
+    $getAnotherRandomNumber = rand(1,9);
+}
+$image = 'images/'.$getRandomNumber.'.jpg';
+$image1 = 'images/'.$getAnotherRandomNumber.'.jpg';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +23,11 @@ unset($_SESSION['teamID']);
     <meta name="keywords" content="English Premier League, Fantasy Premier League, EPL, BPL, Barclays Premier League, Premier League">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?v=1.0.1">
     <link rel="stylesheet" type="text/css" href="css/style.css?v=1.0.1"> 
+    <script type="text/javascript" src="js/datatables.min.js?v=1.0.1"></script>
+    <script type="text/javascript" src="js/fpl.js?v=1.0.1"></script>
+<?php
+if($getEnv != 'local') {
+?>
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -38,7 +53,9 @@ unset($_SESSION['teamID']);
     /></noscript>
     <!-- DO NOT MODIFY -->
     <!-- End Facebook Pixel Code -->
-
+<?php
+}
+?>
 </head>
 <body>
     <div class="container" id="container">
@@ -48,20 +65,17 @@ unset($_SESSION['teamID']);
                 <h2 class="subheading">Season 2016/17</h2>
                 <div class="row">
                     <div class="col col-md-6">
-                        <p>FPL Analysis is a tool for any Fantasy Premier League manager/fan, providing information on players picked, players in dreamteam, top/under performers, game-week history and much more...</p>
-                        <h2 class="lookup-title">Features</h2>
-                        <ul style="padding-right:40px">
-                            <li>Detailed player analysis in sortable searchable tables.</li>
-                            <li>Graph and Charts of various statistics.</li>
-                            <li>Your game-week history, on how have you progressed so far.</li>
-            			    <li>Red & Yellow cards per team.</li>
-            			    <li>Goals conceded per team.</li>
-            			    <li>Your teams all-time High and Low performers.</li>
-            			    <li>Total points by each player in this season.</li>
-            			    <li>Total points by each position in this season.</li>
-            			    <li>Total points by each team in this season.</li>
-                        </ul>
+                        <img class="homePageBanner" src="<?php echo $image; ?>" height="295" width=472 />
                     </div>
+                    <div class="col col-md-6">
+                        <img class="homePageBanner" src="<?php echo $image1; ?>" height="295" width=472 />
+                    </div>
+
+                </div>
+                <div class="row">
+                     <p class='aboutFPL'>FPL Analysis is a tool for any Fantasy Premier League manager/fan, providing information on players picked, players in dreamteam, top/under performers, game-week history and much more...</p>
+                </div>
+                <div class='row'>
                     <div class="col col-md-6">
                         <div class="box">
                             <h2 class="box__title">How to use?</h2>
@@ -82,9 +96,28 @@ unset($_SESSION['teamID']);
                                         <h3>How to find your team id?</h3>
                                         <p class="notes">Navigate to your points screen and your id is included in the page URL e.g: fantasy.premierleague.com/a/team/<strong>xxxxxx</strong>/event/x</p>
                                     </div>
+                                    <h4 class="lookup-title">See it in action?</h4><p>See it in action by viewing <a href="#" class="showMyTeamDashboard">My team</a>.</p>
                                 </form>
                                 <hr>
+                                <h2 class="lookup-title">Features</h2>
+                                <ul style="padding-right:40px">
+                                    <li>Detailed player analysis in sortable searchable tables.</li>
+                                    <li>Graph and Charts of various statistics.</li>
+                                    <li>Your game-week history, on how have you progressed so far.</li>
+                                    <li>Red & Yellow cards per team.</li>
+                                    <li>Goals conceded per team.</li>
+                                    <li>Your teams all-time High and Low performers.</li>
+                                    <li>Total points by each player in this season.</li>
+                                    <li>Total points by each position in this season.</li>
+                                    <li>Total points by each team in this season.</li>
+                                </ul>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col col-md-6">
+                        <div class='twitter-block'>
+                            <a class="twitter-timeline"  href="https://twitter.com/hashtag/FPL" data-widget-id="833372855974903808" data-chrome="noheader nofooter" data-tweet-limit="3" data-border-color="#DDD" lang="EN" data-theme="light" height="447" width="550" data-show-replies="true" data-aria-polite="assertive">#FPL Tweets</a>
+                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
                         </div>
                     </div>
                 </div>
