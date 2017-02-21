@@ -2,11 +2,6 @@
 // Create app and add keys from 
 // https://apps.twitter.com/
 
-$consumerKey    = 'vEpiQZRL6JQTUQ59whbNyHpOV';
-$consumerSecret = 'gxp7qMoYRlPu4nOGGb98GfIh78l4yeoChN8ERyTenpvK1PFaW9';
-$oAuthToken     = '833946467836391424-ja6jNXktN8BB8XdD6nvug7ctGs0IuYU';
-$oAuthSecret    = 'JuB13ZsKGlLs1z17lzVdvnLQf7Yd5VpIl1hNSaIBJGgfb';
-
 // API OAuth 
 // You need add files: 
 // OAuth.php 
