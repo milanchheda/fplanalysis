@@ -4,13 +4,6 @@ require_once __DIR__ . "/config.php";
 
 session_start();
 
-
-// if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 86400)) {
-//     // last request was more than 30 minutes ago
-//     session_unset();     // unset $_SESSION variable for the run-time 
-//     session_destroy();   // destroy session data in storage
-// }
-
 if(isset($_POST['fpl-team-id']) && is_numeric($_POST['fpl-team-id']) && strlen($_POST['fpl-team-id']) < 12){
 	$teamId = $_POST['fpl-team-id'];
 	$_SESSION['teamID'] = $_POST['fpl-team-id'];
@@ -51,6 +44,11 @@ if($lastInsertedDate == 0 && (time() - $lastInsertedDate > 21600)) {
 
 		if($subResult['count'] == 0)
 			mysqli_query($conn, "INSERT INTO users_gameweek_history (user_fpl_id, points, total_points, rank, overall_rank, gameweek_number, team_value) values('" . $teamId . "', '". $value->points . "', '" . $value->total_points . "', '" . $value->rank . "', '" . $value->overall_rank . "', '" . $value->event . "', '" . $value->value . "')");
+	}
+
+	mysqli_query($conn, "DELETE FROM classic_leagues WHERE team_id = " . $teamId);
+	foreach($history->leagues->classic as $value) {
+		mysqli_query($conn, "INSERT INTO classic_leagues (entry_rank, entry_last_rank, entry_movement, entry_change, name, league_type, team_id) values('" . $value->entry_rank . "', '". $value->entry_last_rank . "', '" . $value->entry_movement . "', '" . $value->entry_change . "', '" . $value->name . "', '" . $value->league_type . "', '" . $teamId . "')");
 	}
 }
 
