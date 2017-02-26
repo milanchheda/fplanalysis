@@ -13,7 +13,7 @@ while($getAnotherRandomNumber == $getRandomNumber) {
 }
 $image = 'images/'.$getRandomNumber.'.jpg';
 $image1 = 'images/'.$getAnotherRandomNumber.'.jpg';
-
+$isLive = getenv('IS_LIVE');
 seeIfGameweekIsLive($conn);
 ?>
 <!DOCTYPE html>
@@ -77,20 +77,35 @@ if($getEnv != 'local') {
                     </div> -->
                     <div class="col col-md-12">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#live">Live</a></li>
-                            <li ><a data-toggle="tab" href="#home">Top Selections</a></li>
+                            <?php
+                                if($isLive == 'ON')
+                                echo '<li class="active"><a data-toggle="tab" href="#live">Live</a></li>
+                                                            <li ><a data-toggle="tab" href="#home">Top Selections</a></li>';
+                                else
+                                    echo '<li class="active"><a data-toggle="tab" href="#home">Top Selections</a></li>';
+                            ?>
                             <li><a data-toggle="tab" href="#menu1">Injuries</a></li>
                             <li><a data-toggle="tab" href="#menu2">Suspensions</a></li>
                             <li><a data-toggle="tab" href="#menu3">Unavailable</a></li>
                         </ul>
 
                         <div class="tab-content">
+                        <?php
+                            if($isLive == 'ON') {
+                        ?>
                           <div id="live" class="tab-pane fade in active">
                             <p><?php echo getLiveData($conn); ?></p>
                           </div>
                           <div id="home" class="tab-pane fade">
                             <p><?php echo getTopSelections($conn); ?></p>
                           </div>
+                        <?php
+                            } else {
+                        ?>
+                          <div id="home" class="tab-pane fade in active">
+                            <p><?php echo getTopSelections($conn); ?></p>
+                          </div>
+                          <?php } ?>
                           <div id="menu1" class="tab-pane fade">
                             <p><?php echo getInjuredPlayers($conn, 'i'); ?></p>
                           </div>
