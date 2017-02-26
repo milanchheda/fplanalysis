@@ -62,10 +62,11 @@ function getTopSelections($conn) {
 }
 
 function seeIfGameweekIsLive($conn) {
-	$lastUpdated = getenv('LAST_UPDATED');
+	$liveContent = explode("###", file_get_contents('live.txt'));
+	$lastUpdated = $liveContent[2];
 	if(time() - $lastUpdated > 1800) {
-		if(getenv('IS_LIVE') == 'ON') {
-			$gameweekNumber = getenv('gw_no');
+		if($liveContent[0] == 'ON') {
+			$gameweekNumber = $liveContent[1];
 			// prepare first part of the query (before values)
 			$query = "INSERT INTO live (
 			   player_id,
