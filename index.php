@@ -15,6 +15,7 @@ $image = 'images/'.$getRandomNumber.'.jpg';
 $image1 = 'images/'.$getAnotherRandomNumber.'.jpg';
 $isLive = getenv('IS_LIVE');
 seeIfGameweekIsLive($conn);
+$liveContent = explode("###", file_get_contents('live.txt'));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,7 +79,7 @@ if($getEnv != 'local') {
                     <div class="col col-md-12">
                         <ul class="nav nav-tabs">
                             <?php
-                                if($isLive == 'ON')
+                                if($liveContent[0] == 'ON')
                                 echo '<li class="active"><a data-toggle="tab" href="#live">Live</a></li>
                                                             <li ><a data-toggle="tab" href="#home">Top Selections</a></li>';
                                 else
@@ -91,7 +92,7 @@ if($getEnv != 'local') {
 
                         <div class="tab-content">
                         <?php
-                            if($isLive == 'ON') {
+                            if($liveContent[0] == 'ON') {
                         ?>
                           <div id="live" class="tab-pane fade in active">
                             <p><?php echo getLiveData($conn); ?></p>
