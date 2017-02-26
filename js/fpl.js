@@ -67,6 +67,22 @@ $(document).ready(function(){
         $(".twitter-timeline").contents().find(".MediaCard-media").remove();
     }, 1500);
 
+    
+    if($('#live_players_stats').length) {
+        $('#live_players_stats').DataTable({
+            fixedHeader: true,
+            order: [[1, 'desc']],
+        });    
+    }
+
+    if($('.homepage-tabs').length) {
+        $('.homepage-tabs').DataTable({
+            fixedHeader: true,
+            searching: false,
+            bLengthChange: false,
+        });    
+    }
+
     if($('#example').length) {
         $('#example').DataTable({
             fixedHeader: true,
