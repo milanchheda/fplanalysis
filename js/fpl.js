@@ -67,6 +67,15 @@ $(document).ready(function(){
         $(".twitter-timeline").contents().find(".MediaCard-media").remove();
     }, 1500);
 
+    if($('.homepage-tabs').length) {
+        $('.homepage-tabs').DataTable({
+            fixedHeader: true,
+            searching: false,
+            bLengthChange: false,
+            // "lengthMenu": [[5, 10, 15, -1], [10, 25, 50, "All"]]
+        });    
+    }
+
     if($('#example').length) {
         $('#example').DataTable({
             fixedHeader: true,

@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/config.php";
+require_once __DIR__ . "/stats.php";
 $getEnv = getenv('LOCAL_ENV');
 
 session_start();
@@ -22,6 +24,7 @@ $image1 = 'images/'.$getAnotherRandomNumber.'.jpg';
     <meta name="description" content="FPL Analysis for Fantasy Premier League Managers">
     <meta name="keywords" content="English Premier League, Fantasy Premier League, EPL, BPL, Barclays Premier League, Premier League">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?v=1.0.2">
+    <link rel="stylesheet" type="text/css" href="css/datatables.min.css?v=1.0.2"/>
     <link rel="stylesheet" type="text/css" href="css/style.css?v=1.0.2"> 
     <script type="text/javascript" src="js/datatables.min.js?v=1.0.2"></script>
     <script type="text/javascript" src="js/fpl.js?v=1.0.2"></script>
@@ -64,18 +67,54 @@ if($getEnv != 'local') {
                 <h1 class="homePageHeader">Data analysis tool for Fantasy Premier League Managers</h1>
                 <h2 class="subheading">Season 2016/17</h2>
                 <div class="row">
-                    <div class="col col-md-6">
+                    <!-- <div class="col col-md-6">
                         <img class="homePageBanner" src="<?php echo $image; ?>" height="315" width=572 />
                     </div>
                     <div class="col col-md-6">
                         <img class="homePageBanner" src="<?php echo $image1; ?>" height="315" width=572 />
-                    </div>
+                    </div> -->
+                    <div class="col col-md-12">
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a data-toggle="tab" href="#home">Top Selections</a></li>
+                          <li><a data-toggle="tab" href="#menu1">Injuries</a></li>
+                          <li><a data-toggle="tab" href="#menu2">Suspensions</a></li>
+                          <li><a data-toggle="tab" href="#menu3">Unavailable</a></li>
+                        </ul>
 
-                </div>
-                <div class="row">
-                     <p class='aboutFPL'>FPL Analysis is a tool for any Fantasy Premier League manager/fan, providing information on players picked, players in dreamteam, top/under performers, game-week history and much more...</p>
+                        <div class="tab-content">
+                          <div id="home" class="tab-pane fade in active">
+                            <p><?php echo getTopSelections($conn); ?></p>
+                          </div>
+                          <div id="menu1" class="tab-pane fade">
+                            <p><?php echo getInjuredPlayers($conn, 'i'); ?></p>
+                          </div>
+                          <div id="menu2" class="tab-pane fade">
+                            <p><?php echo getInjuredPlayers($conn, 's'); ?></p>
+                          </div>
+                          <div id="menu3" class="tab-pane fade">
+                            <p><?php echo getInjuredPlayers($conn, 'u'); ?></p>
+                          </div>
+                        </div>
+                    </div>
                 </div>
                 <div class='row'>
+                    <div class="col col-md-6">
+                        <div class="box aboutFPL">
+                            <p>FPL Analysis is a tool for any Fantasy Premier League manager/fan, providing information on players picked, players in dreamteam, top/under performers, game-week history and much more...</p>
+                            <h4 class="lookup-title">Features</h4>
+                            <ul style="padding-right:40px">
+                                <li>Detailed player analysis in sortable searchable tables.</li>
+                                <li>Graph and Charts of various statistics.</li>
+                                <li>Your game-week history, on how have you progressed so far.</li>
+                                <li>Red & Yellow cards per team.</li>
+                                <li>Goals conceded per team.</li>
+                                <li>Your teams all-time High and Low performers.</li>
+                                <li>Total points by each player in this season.</li>
+                                <li>Total points by each position in this season.</li>
+                                <li>Total points by each team in this season.</li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="col col-md-6">
                         <div class="box">
                             <h2 class="box__title">How to use?</h2>
@@ -99,25 +138,7 @@ if($getEnv != 'local') {
                                     <h4 class="lookup-title">See it in action?</h4><p>See it in action by viewing <a href="#" class="showMyTeamDashboard">My team</a>.</p>
                                 </form>
                                 <hr>
-                                <h2 class="lookup-title">Features</h2>
-                                <ul style="padding-right:40px">
-                                    <li>Detailed player analysis in sortable searchable tables.</li>
-                                    <li>Graph and Charts of various statistics.</li>
-                                    <li>Your game-week history, on how have you progressed so far.</li>
-                                    <li>Red & Yellow cards per team.</li>
-                                    <li>Goals conceded per team.</li>
-                                    <li>Your teams all-time High and Low performers.</li>
-                                    <li>Total points by each player in this season.</li>
-                                    <li>Total points by each position in this season.</li>
-                                    <li>Total points by each team in this season.</li>
-                                </ul>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col col-md-6">
-                        <div class='twitter-block'>
-                            <a class="twitter-timeline"  href="https://twitter.com/hashtag/FPL" data-widget-id="833372855974903808" data-chrome="noheader nofooter" data-tweet-limit="4" data-border-color="#DDD" lang="EN" data-theme="light" height="447" width="550" data-show-replies="true" data-aria-polite="assertive">#FPL Tweets</a>
-                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
                         </div>
                     </div>
                 </div>
