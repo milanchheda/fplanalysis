@@ -18,7 +18,7 @@ function getInjuredPlayers($conn, $status) {
             </tr>
         </tfoot>
         <tbody>';
-	$query = mysqli_query($conn, "SELECT p.web_name, p.news, t.name 
+	$query = mysqli_query($conn, "SELECT p.web_name, p.news, t.name
 						FROM players p
 						JOIN teams t on t.code = p.team_code
 						WHERE p.status = '".$status."'");
@@ -28,10 +28,10 @@ function getInjuredPlayers($conn, $status) {
 				<td>" . $row['web_name'] . "</td>
 				<td>" . $row['name'] . "</td>
 				<td>" . $row['news'] . "</td>
-			</tr>"; 
+			</tr>";
 	}
 	$table .= "</tbody></table>";
-	
+
 	return $table;
 }
 
@@ -54,10 +54,10 @@ function getTopSelections($conn) {
 				<td>" . $row['web_name'] . "</td>
 				<td>" . $row['name'] . "</td>
 				<td>" . $row['selected_by'] . "%</td>
-			</tr>"; 
+			</tr>";
 	}
 	$table .= "</tbody></table>";
-	
+
 	return $table;
 }
 
@@ -85,7 +85,7 @@ function seeIfGameweekIsLive($conn) {
 			foreach ($contents->elements as $key => $value) {
 				$query_values[] = "(".$key.", ".$value->stats->yellow_cards.", ".$value->stats->red_cards.", ".$value->stats->goals_conceded.",".$value->stats->goals_scored.", ".$value->stats->bonus.",".$value->stats->total_points.",".$value->stats->minutes.",".$value->stats->clean_sheets.",".$value->stats->assists.")";
 			}
-			
+            mysqli_query($conn, 'TRUNCATE TABLE live');
 			mysqli_query($conn, $query . implode(',',$query_values));
 		}
 	}
@@ -101,7 +101,7 @@ function getLiveData($conn) {
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Position</th>
+                <th>Points</th>
                 <th>Bonus</th>
                 <th>Assists</th>
                 <th>Goals Scored</th>
@@ -123,7 +123,7 @@ function getLiveData($conn) {
 					<td>" . $row['clean_sheets'] . "</td>
 					<td>" . $row['yellow_cards'] . "</td>
 					<td>" . $row['red_cards'] . "</td>
-				</tr>"; 
+				</tr>";
 	}
 
 	$table .= "</tbody></table>";
