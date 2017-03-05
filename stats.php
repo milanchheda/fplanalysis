@@ -129,4 +129,29 @@ function getLiveData($conn) {
 	$table .= "</tbody></table>";
 	return $table;
 }
+
+function getGameweekStats($conn) {
+	$query = mysqli_query($conn, "SELECT sum(l.total_points) as total_points, sum(l.assists) as total_assists, sum(bonus) as total_bonus, sum(l.clean_sheets) as total_clean_sheets, sum(l.yellow_cards) as total_yellow_cards, sum(l.red_cards) as total_red_cards
+, sum(l.goals_scored) as total_goals_scored
+		from live l
+		join players p on p.id = l.player_id");
+	$result = mysqli_fetch_assoc($query);
+	return $result;
+}
+
+function getGameweekStatsForPosition1($conn) {
+    for($i = 1; $i <= 4; $i++) {
+        $query = mysqli_query($conn, "SELECT web_name, l.total_points, et.name
+            from live l
+            join players p on p.id = l.player_id
+            join element_types et on et.id = p.element_type
+            where element_type = $i
+            order by l.total_points desc
+            limit 5");
+        while($result = mysqli_fetch_assoc($query)) {
+            $row[$i][] = $result;
+        }
+    }
+	return $row;
+}
 ?>

@@ -1,0 +1,76 @@
+body {
+    background: #eceff4;
+}
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    border-bottom: solid 1px #c5d6de;
+    padding: 20px 15px 0 0;
+    z-index: 80;
+}
+.site-header .site-header-content {
+    float: right;
+    height: 40px;
+    padding: 5px 0;
+    width: 100%;
+    margin-left: -210px;
+}
+.site-header .site-header-search-container {
+    float: right;
+    width: 158px;
+    margin: 0 10px 0 0;
+    zoom: 1;
+}
+.page-content {
+    padding: 107px 15px 10px;
+    transition: all .2s ease-in-out;
+}
+.color-blue {
+    color: #00a8ff!important;
+}
+.logoClass {
+    font-size: 2.0em;
+    margin-left: 22px;
+    color: #000;
+}
+header.card-header {
+    color: #00a8ff!important;
+    font-size: 1.2em;
+}
+.gameweekHeaderNumber {
+    text-align: center;
+    margin-left: 20%;
+    font-size: 1.5em;
+}
+.site-header-content {
+    width: 45% !important;
+}
+.table tr td {
+    border: none !important;
+}
+.love {
+  display: inline-block;
+  position: relative;
+  top: .2em;
+  font-size: 1.1em;
+  color: #e74c3c;
+  -webkit-transform: scale(.9);
+  -moz-transform: scale(.9);
+  transform: scale(.9);
+  -webkit-animation: love .5s infinite linear alternate-reverse;
+  -moz-animation: love .5s infinite linear alternate-reverse;
+  animation: love .5s infinite linear alternate-reverse;
+}
+@-webkit-keyframes love {
+  to {-webkit-transform: scale(1.2);}
+}
+@-moz-keyframes love {
+  to {-moz-transform: scale(1.2);}
+}
+@keyframes love {
+  to {transform: scale(1.2);}
+}
