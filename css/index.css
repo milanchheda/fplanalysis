@@ -76,10 +76,10 @@ header.card-header {
 }
 .navigation.navigation-next {
     right: 0;
-    margin-right: -30px;
+    margin-right: -30px !important;
 }
 .navigation-prev {
-    margin-left: 10px;
+    margin-left: 10px !important;
 }
 .navigation {
     position: absolute;
