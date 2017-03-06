@@ -1,56 +1,12 @@
 <?php
 ini_set('display_errors', 'Off');
-require_once __DIR__ . "/config.php";
-require_once __DIR__ . "/stats.php";
+
 $getEnv = getenv('LOCAL_ENV');
 
 $liveContent = explode("###", file_get_contents('live.txt'));
+$lastGameweekNumber = $liveContent[1];
 session_start();
 unset($_SESSION['teamID']);
-$topStats = getGameweekStatsForPosition1($conn);
-$result = getGameweekStats($conn);
-$count = 1;
-$html = '';
-foreach ($result as $key => $value) {
-    if($count == 1 || $count == 5) {
-        $html .= '<div class="row">';
-    }
-    $label = str_replace('_', ' ', $key);
-    $label = ucwords($label);
-    $html .= '<div class="col-md-3">
-        <section class="widget widget-simple-sm">
-            <div class="widget-simple-sm-statistic">
-                <div class="number">' . $value . '</div>
-                <div class="caption color-blue">' . $label . ' </div>
-            </div>
-        </section>
-    </div>';
-    if($count == 4 || $count == 7) {
-        $html .= '</div>';
-    }
-    $count++;
-}
-
-$table = '';
-$topHtml .= '<div class="row">';
-foreach($topStats as $key => $value) {
-    $positionName = $value[0]['name'];
-    $table .= '<div class="col-md-3">
-                <section class="card">
-                <header class="card-header card-header-lg">
-                    Top ' . $positionName . 's
-                </header>
-                    <div class="card-block">
-                        <table class="table table-hover">';
-    foreach($value as $k => $v) {
-        $table .= "<tr>
-                <td>" . $v['web_name'] . "</td>
-                <td>" . $v['total_points'] . "</td>
-            </tr>";
-    }
-    $table .= "</table></div></section></div>";
-}
-$topHtml .= $table . '</div>';
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,6 +17,7 @@ $topHtml .= $table . '</div>';
     <meta name="title" content="FPL Analysis">
     <meta name="description" content="FPL Analysis for Fantasy Premier League Managers">
     <meta name="keywords" content="English Premier League, Fantasy Premier League, EPL, BPL, Barclays Premier League, Premier League">
+    <!-- <link rel="stylesheet" href="css/font-awesome.css"> -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/widgets.min.css">
     <link rel="stylesheet" href="css/index.css">
@@ -101,7 +58,7 @@ $topHtml .= $table . '</div>';
     <header class="site-header">
         <div class="container-fluid">
                 <a href='index.php' class="logoClass">FPL Analysis</a>
-                <span class="gameweekHeaderNumber">Gameweek: <?php echo $liveContent[1]; ?></span>
+                <span class="gameweekHeaderNumber">Gameweek: <span class='gameweekNumber'><?php echo $lastGameweekNumber; ?></span></span>
             <div class="site-header-content">
                 <div class="site-header-content-in">
                     <div class="site-header-collapsed">
@@ -123,9 +80,49 @@ $topHtml .= $table . '</div>';
     </header>
     <div class="page-content">
         <div class="container-fluid">
-            <?php echo $html; ?>
-            <?php echo $topHtml; ?>
+
         </div><!--.container-fluid-->
     </div><!--.page-content-->
+
+    <a href="#" class="navigation navigation-prev" id=<?php echo $lastGameweekNumber-1; ?>>
+        <img src="images/left.png" height="45" width="45"/>
+    </a>
+    <a href="#" class="navigation navigation-next" id=<?php echo $lastGameweekNumber+1; ?> style="margin-right: 0px;">
+        <img src="images/right.png" height="45" width="45"/>
+    </a>
+
+    <script type="text/javascript" src="js/datatables.min.js?v=1.0.2"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            getData($(".gameweekNumber").text());
+            $(".navigation").on('click', function(){
+                $(".gameweekNumber").text($(this).attr("id"));
+                getData($(this).attr("id"));
+                if($(this).hasClass("navigation-prev")) {
+                    $(this).attr("id", ($(this).attr("id")-1));
+                    $(".navigation-next").attr('id', ($(this).attr("id")));
+                } else {
+                    $(this).attr("id", ($(this).attr("id")+1));
+                    $(".navigation-prev").attr('id', ($(this).attr("id")));
+                }
+            });
+        });
+
+        function getData(gw_no) {
+            $(".navigation").hide();
+            $(".page-content .container-fluid").html("<img src='images/loading.gif' style='margin:10% 37%;'/>");
+            $.ajax({
+                url: "getStats.php",
+                data: { id: gw_no },
+                datatype: 'html',
+                type: "post",
+                success: function(data, textStatus, jqXHR) {
+                    $(".gameweekNumber").text(gw_no);
+                    $(".page-content .container-fluid").html(data);
+                    $(".navigation").show();
+                }
+            });
+        }
+    </script>
 </body>
 </html>

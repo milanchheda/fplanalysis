@@ -74,3 +74,32 @@ header.card-header {
 @keyframes love {
   to {transform: scale(1.2);}
 }
+.navigation.navigation-next {
+    right: 0;
+    margin-right: -30px;
+}
+.navigation-prev {
+    margin-left: 10px;
+}
+.navigation {
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    margin: 0;
+    max-width: 150px;
+    min-width: 90px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    font-size: 40px;
+    color: #ccc;
+    text-align: center;
+    -webkit-transition: all 350ms ease;
+    -moz-transition: all 350ms ease;
+    -o-transition: all 350ms ease;
+    transition: all 350ms ease;
+}
+.page-content {
+    margin: 0 50px;
+}
