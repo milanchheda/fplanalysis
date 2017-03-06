@@ -96,14 +96,15 @@ unset($_SESSION['teamID']);
         $(document).ready(function(){
             getData($(".gameweekNumber").text());
             $(".navigation").on('click', function(){
-                $(".gameweekNumber").text($(this).attr("id"));
-                getData($(this).attr("id"));
+		var number = $(this).attr('id');
+                $(".gameweekNumber").text(number);
+                getData(number);
                 if($(this).hasClass("navigation-prev")) {
-                    $(this).attr("id", ($(this).attr("id")-1));
-                    $(".navigation-next").attr('id', ($(this).attr("id")));
+                    $(this).attr("id", (number-1));
+                    $(".navigation-next").attr('id', parseInt(number)+1);
                 } else {
-                    $(this).attr("id", ($(this).attr("id")+1));
-                    $(".navigation-prev").attr('id', ($(this).attr("id")));
+		    $(this).attr("id", (parseInt(number)+1));
+                    $(".navigation-prev").attr('id', parseInt(number)-1);
                 }
             });
         });
