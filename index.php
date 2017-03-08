@@ -91,12 +91,51 @@ unset($_SESSION['teamID']);
         <img src="images/right.png" height="45" width="45"/>
     </a>
 
+    <div id="supportPopup">
+		<div class="header" id="popupExpandButton">
+			<strong>Feedback</strong>
+			<span>&times;</span>
+		</div>
+        <div class="feedbackForm">
+    		<form>
+    			<div id="form">
+    				<p>Need help? Have feedback?</p>
+    				<input name="name" id="msgname" placeholder="Name" required autofocus>
+    				<input  name="email" id="msgemail" type="email" placeholder="Email" required autocomplete="off">
+    				<textarea name="message" id="msgmessage" rows="5" cols="40" required></textarea>
+    				<input type="button" id="msgsubmit" value="Send">
+    			</div>
+    		</form>
+        </div>
+	</div>
     <script type="text/javascript" src="js/datatables.min.js?v=1.0.2"></script>
     <script type="text/javascript">
         $(document).ready(function(){
+
+            $("#msgsubmit").on('click', function(){
+                var msgname = $("#msgname").val();
+                var msgemail = $("#msgemail").val();
+                var msgmessage = $("#msgmessage").val();
+                if(msgname != '' && msgemail != '' && msgmessage != '') {
+                    $.ajax({
+                        url: "feedback.php",
+                        data: { msgname: msgname, msgemail:msgemail, msgmessage:msgmessage },
+                        datatype: 'html',
+                        type: "post",
+                        success: function(data, textStatus, jqXHR) {
+                            $(".feedbackForm").html(data);
+                        }
+                    });
+                }
+            });
+
+            $("#popupExpandButton").on("click", function () {
+                $("#supportPopup").toggleClass('expanded');
+            });
+
             getData($(".gameweekNumber").text());
             $(".navigation").on('click', function(){
-		var number = $(this).attr('id');
+                var number = $(this).attr('id');
                 $(".gameweekNumber").text(number);
                 getData(number);
                 if($(this).hasClass("navigation-prev")) {
