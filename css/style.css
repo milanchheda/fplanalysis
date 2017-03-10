@@ -32,7 +32,7 @@ body {
 	padding-right: 30px;
 }
 #example_paginate {
-	padding-right: 10px;	
+	padding-right: 10px;
 }
 #team-canvas, #yellow-canvas, #red-canvas {
     padding: 10px;
@@ -297,7 +297,7 @@ input[type=text] {
 }
 .no-arrow {
   float: left;
-  margin: 0px 5px 0 0px; 
+  margin: 0px 5px 0 0px;
   font-weight: bold;
 }
 /*table#gameweeksTable tr.green td {
@@ -314,4 +314,7 @@ table#gameweeksTable tr.red td {
   border-right: 1px solid #DDD;
   border-bottom: 1px solid #DDD;
   border-left: 1px solid #DDD;
+}
+table {
+    font-size: 14px;
 }
