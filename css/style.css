@@ -315,6 +315,9 @@ table#gameweeksTable tr.red td {
   border-bottom: 1px solid #DDD;
   border-left: 1px solid #DDD;
 }
+table {
+    font-size: 14px;
+}
 .logoClass {
     font-size: 2.0em;
     margin-left: 22px;

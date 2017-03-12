@@ -1,13 +1,13 @@
 <?php
-// Create app and add keys from 
+// Create app and add keys from
 // https://apps.twitter.com/
 require_once __DIR__ . "/config.php";
 require_once __DIR__ . "/twitteroauth.php";
 
-// API OAuth 
-// You need add files: 
-// OAuth.php 
-// twitteroauth.php  
+// API OAuth
+// You need add files:
+// OAuth.php
+// twitteroauth.php
 // and keys $consumerKey, $consumerSecret, $oAuthToken, $oAuthSecret
 //require_once('twitteroauth.php');
 //require('config.php');
@@ -38,13 +38,14 @@ switch ($random) {
 		break;
 }
 
-$tweet = new TwitterOAuth($consumerKey, $consumerSecret, $oAuthToken, $oAuthSecret);
-$append = "\n#PremierLeague #EPL #FPL";
-$msg .= $append;
-if(strlen($msg) < 140) { 	
-	$t = $tweet->post('statuses/update', array('status' => $msg));
+if(strlen($msg) > 20) {
+	$tweet = new TwitterOAuth($consumerKey, $consumerSecret, $oAuthToken, $oAuthSecret);
+	$append = "\n#PremierLeague #EPL #FPL";
+	$msg .= $append;
+	if(strlen($msg) < 140) {
+		$t = $tweet->post('statuses/update', array('status' => $msg));
+	}
 }
-
 
 function getTopThreeSelectedByPlayers($conn) {
 	$getTopThreeSelectedBy = mysqli_query($conn, "SELECT web_name, selected_by FROM players ORDER BY selected_by DESC limit 3");
@@ -57,11 +58,12 @@ function getTopThreeSelectedByPlayers($conn) {
 
 function getTopTransferredInPlayer($conn) {
 	$getTopThreeSelectedBy = mysqli_query($conn, "SELECT web_name, transfers_in_event FROM players ORDER BY transfers_in_event DESC limit 1");
-	while($result = mysqli_fetch_array($getTopThreeSelectedBy)) {
-		$playerName = "#" . $result['web_name'];
-		$transferred = $result['transfers_in_event'];
-	}
-	$msg = number_format($transferred) . " transfers and counting. " . $playerName . " is on FIRE.";
+	$result = mysqli_fetch_array($getTopThreeSelectedBy);
+	$playerName = "#" . $result['web_name'];
+	$transferred = $result['transfers_in_event'];
+	$msg = '';
+	if($transferred > 50000)
+		$msg = number_format($transferred) . " transfers and counting. " . $playerName . " is on FIRE.";
 	return $msg;
 }
 
