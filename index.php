@@ -1,178 +1,168 @@
 <?php
+ini_set('display_errors', 'Off');
 
-require_once __DIR__ . "/config.php";
-require_once __DIR__ . "/stats.php";
 $getEnv = getenv('LOCAL_ENV');
 
+$liveContent = explode("###", file_get_contents('live.txt'));
+$lastGameweekNumber = $liveContent[1];
 session_start();
 unset($_SESSION['teamID']);
-$getRandomNumber = rand(1,12);
-$getAnotherRandomNumber = rand(1,12);
-while($getAnotherRandomNumber == $getRandomNumber) {
-    $getAnotherRandomNumber = rand(1,12);
-}
-$image = 'images/'.$getRandomNumber.'.jpg';
-$image1 = 'images/'.$getAnotherRandomNumber.'.jpg';
-$isLive = getenv('IS_LIVE');
-seeIfGameweekIsLive($conn);
-$liveContent = explode("###", file_get_contents('live.txt'));
 ?>
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+<head lang="en">
     <title>FPL Analysis</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="title" content="FPL Analysis">
     <meta name="description" content="FPL Analysis for Fantasy Premier League Managers">
     <meta name="keywords" content="English Premier League, Fantasy Premier League, EPL, BPL, Barclays Premier League, Premier League">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?v=1.0.2">
-    <link rel="stylesheet" type="text/css" href="css/datatables.min.css?v=1.0.2"/>
-    <link rel="stylesheet" type="text/css" href="css/style.css?v=1.0.2"> 
-    <script type="text/javascript" src="js/datatables.min.js?v=1.0.2"></script>
-    <script type="text/javascript" src="js/fpl.js?v=1.0.2"></script>
-<?php
-if($getEnv != 'local') {
-?>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    <!-- <link rel="stylesheet" href="css/font-awesome.css"> -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/widgets.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <?php
+    if($getEnv != 'local') {
+    ?>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-91316667-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+            ga('create', 'UA-91316667-2', 'auto');
+            ga('send', 'pageview');
+        </script>
 
-    <!-- Facebook Pixel Code -->
-    <script>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-    document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '827358514068521'); // Insert your pixel ID here.
-    fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=827358514068521&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- DO NOT MODIFY -->
-    <!-- End Facebook Pixel Code -->
-<?php
-}
-?>
+        <!-- Facebook Pixel Code -->
+        <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '827358514068521'); // Insert your pixel ID here.
+        fbq('track', 'PageView');
+        </script>
+        <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=827358514068521&ev=PageView&noscript=1"
+        /></noscript>
+        <!-- DO NOT MODIFY -->
+        <!-- End Facebook Pixel Code -->
+    <?php
+    }
+    ?>
 </head>
-<body>
-    <div class="container" id="container">
-        <div class="lookup-view">
-            <div class="row">
-                <h1 class="homePageHeader">Data analysis tool for Fantasy Premier League Managers</h1>
-                <h2 class="subheading">Season 2016/17</h2>
-                <div class="row">
-                    <!-- <div class="col col-md-6">
-                        <img class="homePageBanner" src="<?php echo $image; ?>" height="315" width=572 />
-                    </div>
-                    <div class="col col-md-6">
-                        <img class="homePageBanner" src="<?php echo $image1; ?>" height="315" width=572 />
-                    </div> -->
-                    <div class="col col-md-12">
-                        <ul class="nav nav-tabs">
-                            <?php
-                                if($liveContent[0] == 'ON')
-                                echo '<li class="active"><a data-toggle="tab" href="#live">Live</a></li>
-                                                            <li ><a data-toggle="tab" href="#home">Top Selections</a></li>';
-                                else
-                                    echo '<li class="active"><a data-toggle="tab" href="#home">Top Selections</a></li>';
-                            ?>
-                            <li><a data-toggle="tab" href="#menu1">Injuries</a></li>
-                            <li><a data-toggle="tab" href="#menu2">Suspensions</a></li>
-                            <li><a data-toggle="tab" href="#menu3">Unavailable</a></li>
-                        </ul>
 
-                        <div class="tab-content">
-                        <?php
-                            if($liveContent[0] == 'ON') {
-                        ?>
-                          <div id="live" class="tab-pane fade in active">
-                            <p><?php echo getLiveData($conn); ?></p>
-                          </div>
-                          <div id="home" class="tab-pane fade">
-                            <p><?php echo getTopSelections($conn); ?></p>
-                          </div>
-                        <?php
-                            } else {
-                        ?>
-                          <div id="home" class="tab-pane fade in active">
-                            <p><?php echo getTopSelections($conn); ?></p>
-                          </div>
-                          <?php } ?>
-                          <div id="menu1" class="tab-pane fade">
-                            <p><?php echo getInjuredPlayers($conn, 'i'); ?></p>
-                          </div>
-                          <div id="menu2" class="tab-pane fade">
-                            <p><?php echo getInjuredPlayers($conn, 's'); ?></p>
-                          </div>
-                          <div id="menu3" class="tab-pane fade">
-                            <p><?php echo getInjuredPlayers($conn, 'u'); ?></p>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-                <div class='row'>
-                    <div class="col col-md-6">
-                        <div class="box aboutFPL">
-                            <p>FPL Analysis is a tool for any Fantasy Premier League manager/fan, providing information on players picked, players in dreamteam, top/under performers, game-week history and much more...</p>
-                            <h4 class="lookup-title">Features</h4>
-                            <ul style="padding-right:40px">
-                                <li>Detailed player analysis in sortable searchable tables.</li>
-                                <li>Graph and Charts of various statistics.</li>
-                                <li>Your game-week history, on how have you progressed so far.</li>
-                                <li>Red & Yellow cards per team.</li>
-                                <li>Goals conceded per team.</li>
-                                <li>Your teams all-time High and Low performers.</li>
-                                <li>Total points by each player in this season.</li>
-                                <li>Total points by each position in this season.</li>
-                                <li>Total points by each team in this season.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col col-md-6">
-                        <div class="box">
-                            <h2 class="box__title">How to use?</h2>
-                            <div class="box__content">
-                                <h3>Enter team ID below</h3>
-                                <form class="form" role="form" action="teamStats.php" method="POST">
-                                    <div class="clearfix">
-                                        <div class="col col--8">
-                                            <div class="form__item">
-                                                <input type="text" class="form-control" placeholder="Team ID"  name="fpl-team-id" id="fpl-team-id" required="true" pattern="\d*" maxlength="15">
-                                            </div>
-                                        </div>
-                                        <div class="col col--4">
-                                            <button type="submit" class="btn btn--primary btn--submit">Find team</button>
-                                        </div>
-                                    </div>
-                                    <div class="form-help">
-                                        <h3>How to find your team id?</h3>
-                                        <p class="notes">Navigate to your points screen and your id is included in the page URL e.g: fantasy.premierleague.com/a/team/<strong>xxxxxx</strong>/event/x</p>
-                                    </div>
-                                    <h4 class="lookup-title">See it in action?</h4><p>See it in action by viewing <a href="#" class="showMyTeamDashboard">My team</a>.</p>
+<body class="with-side-menu  sidebar-hidden">
+    <header class="site-header">
+        <div class="container-fluid">
+                <a href='index.php' class="logoClass">FPL Analysis</a>
+                <span class="gameweekHeaderNumber">Gameweek: <span class='gameweekNumber'><?php echo $lastGameweekNumber; ?></span></span>
+            <div class="site-header-content">
+                <div class="site-header-content-in">
+                    <div class="site-header-collapsed">
+                        <div class="site-header-collapsed-in">
+                            <div class="site-header-search-container">
+                                 <form class="form" role="form" action="teamStats.php" method="POST">
+                                    <input type="text" class="form-control" placeholder="Team ID"  name="fpl-team-id" id="fpl-team-id" required="true" pattern="\d*" maxlength="15">
+                                    <!-- <button type="submit">
+                                        <span class="font-icon-search"></span>
+                                    </button> -->
+                                    <div class="overlay"></div>
                                 </form>
-                                <hr>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        </div><!--.site-header-collapsed-in-->
+                    </div><!--.site-header-collapsed-->
+                </div><!--site-header-content-in-->
+            </div><!--.site-header-content-->
+        </div><!--.container-fluid-->
+    </header>
+    <div class="page-content">
+        <div class="container-fluid">
+
+        </div><!--.container-fluid-->
+    </div><!--.page-content-->
+
+    <a href="#" class="navigation navigation-prev" id=<?php echo $lastGameweekNumber-1; ?>>
+        <img src="images/left.png" height="45" width="45"/>
+    </a>
+    <a href="#" class="navigation navigation-next" id=<?php echo $lastGameweekNumber+1; ?> style="margin-right: 0px;">
+        <img src="images/right.png" height="45" width="45"/>
+    </a>
+
+    <div id="supportPopup">
+		<div class="header" id="popupExpandButton">
+			<strong>Feedback</strong>
+			<span>&times;</span>
+		</div>
+        <div class="feedbackForm">
+    		<form>
+    			<div id="form">
+    				<p>Need help? Have feedback?</p>
+    				<input name="name" id="msgname" placeholder="Name" required autofocus>
+    				<input  name="email" id="msgemail" type="email" placeholder="Email" required autocomplete="off">
+    				<textarea name="message" id="msgmessage" rows="5" cols="40" required></textarea>
+    				<input type="button" id="msgsubmit" value="Send">
+    			</div>
+    		</form>
         </div>
-    </div>
-    <footer>
-        <center>
-            <div class="devunit">
-               Made with <span class="love"><i class="glyphicon glyphicon-heart"></i></span>  by <a href="//milanchheda.com" target="_BLANK">Milan Chheda</a>
-            </div>
-        </center>
-    </footer>
+	</div>
+    <script type="text/javascript" src="js/datatables.min.js?v=1.0.2"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $("#msgsubmit").on('click', function(){
+                var msgname = $("#msgname").val();
+                var msgemail = $("#msgemail").val();
+                var msgmessage = $("#msgmessage").val();
+                if(msgname != '' && msgemail != '' && msgmessage != '') {
+                    $.ajax({
+                        url: "feedback.php",
+                        data: { msgname: msgname, msgemail:msgemail, msgmessage:msgmessage },
+                        datatype: 'html',
+                        type: "post",
+                        success: function(data, textStatus, jqXHR) {
+                            $(".feedbackForm").html(data);
+                        }
+                    });
+                }
+            });
+
+            $("#popupExpandButton").on("click", function () {
+                $("#supportPopup").toggleClass('expanded');
+            });
+
+            getData($(".gameweekNumber").text());
+            $(".navigation").on('click', function(){
+                var number = $(this).attr('id');
+                $(".gameweekNumber").text(number);
+                getData(number);
+                if($(this).hasClass("navigation-prev")) {
+                    $(this).attr("id", (number-1));
+                    $(".navigation-next").attr('id', parseInt(number)+1);
+                } else {
+		    $(this).attr("id", (parseInt(number)+1));
+                    $(".navigation-prev").attr('id', parseInt(number)-1);
+                }
+            });
+        });
+
+        function getData(gw_no) {
+            $(".navigation").hide();
+            $(".page-content .container-fluid").html("<img src='images/loading.gif' style='margin:10% 37%;'/>");
+            $.ajax({
+                url: "getStats.php",
+                data: { id: gw_no },
+                datatype: 'html',
+                type: "post",
+                success: function(data, textStatus, jqXHR) {
+                    $(".gameweekNumber").text(gw_no);
+                    $(".page-content .container-fluid").html(data);
+                    $(".navigation").show();
+                }
+            });
+        }
+    </script>
 </body>
 </html>

@@ -18,7 +18,7 @@ function getInjuredPlayers($conn, $status) {
             </tr>
         </tfoot>
         <tbody>';
-	$query = mysqli_query($conn, "SELECT p.web_name, p.news, t.name 
+	$query = mysqli_query($conn, "SELECT p.web_name, p.news, t.name
 						FROM players p
 						JOIN teams t on t.code = p.team_code
 						WHERE p.status = '".$status."'");
@@ -28,10 +28,10 @@ function getInjuredPlayers($conn, $status) {
 				<td>" . $row['web_name'] . "</td>
 				<td>" . $row['name'] . "</td>
 				<td>" . $row['news'] . "</td>
-			</tr>"; 
+			</tr>";
 	}
 	$table .= "</tbody></table>";
-	
+
 	return $table;
 }
 
@@ -54,10 +54,10 @@ function getTopSelections($conn) {
 				<td>" . $row['web_name'] . "</td>
 				<td>" . $row['name'] . "</td>
 				<td>" . $row['selected_by'] . "%</td>
-			</tr>"; 
+			</tr>";
 	}
 	$table .= "</tbody></table>";
-	
+
 	return $table;
 }
 
@@ -85,7 +85,7 @@ function seeIfGameweekIsLive($conn) {
 			foreach ($contents->elements as $key => $value) {
 				$query_values[] = "(".$key.", ".$value->stats->yellow_cards.", ".$value->stats->red_cards.", ".$value->stats->goals_conceded.",".$value->stats->goals_scored.", ".$value->stats->bonus.",".$value->stats->total_points.",".$value->stats->minutes.",".$value->stats->clean_sheets.",".$value->stats->assists.")";
 			}
-			
+            mysqli_query($conn, 'TRUNCATE TABLE live');
 			mysqli_query($conn, $query . implode(',',$query_values));
 		}
 	}
@@ -101,7 +101,7 @@ function getLiveData($conn) {
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Position</th>
+                <th>Points</th>
                 <th>Bonus</th>
                 <th>Assists</th>
                 <th>Goals Scored</th>
@@ -123,10 +123,37 @@ function getLiveData($conn) {
 					<td>" . $row['clean_sheets'] . "</td>
 					<td>" . $row['yellow_cards'] . "</td>
 					<td>" . $row['red_cards'] . "</td>
-				</tr>"; 
+				</tr>";
 	}
 
 	$table .= "</tbody></table>";
 	return $table;
+}
+
+function getGameweekStats($conn, $gameweekNumber) {
+	$query = mysqli_query($conn, "SELECT sum(l.total_points) as total_points, sum(l.assists) as total_assists, sum(bonus) as total_bonus, sum(l.clean_sheets) as total_clean_sheets, sum(l.yellow_cards) as total_yellow_cards, sum(l.red_cards) as total_red_cards
+, sum(l.goals_scored) as total_goals_scored
+		from live l
+		join players p on p.id = l.player_id
+        WHERE l.gameweek_number = " . $gameweekNumber);
+	$result = mysqli_fetch_assoc($query);
+	return $result;
+}
+
+function getGameweekStatsForPosition1($conn, $gameweekNumber) {
+    for($i = 1; $i <= 4; $i++) {
+        $query = mysqli_query($conn, "SELECT web_name, l.total_points, et.name
+            from live l
+            join players p on p.id = l.player_id
+            join element_types et on et.id = p.element_type
+            where element_type = $i
+            AND l.gameweek_number = ".$gameweekNumber."
+            ORDER BY l.total_points desc
+            limit 5");
+        while($result = mysqli_fetch_assoc($query)) {
+            $row[$i][] = $result;
+        }
+    }
+	return $row;
 }
 ?>
